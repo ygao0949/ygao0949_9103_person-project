@@ -7,7 +7,6 @@ class ColorfulRing {
     this.clicked = false; // A flag to check whether this ring has been clicked
     this.increaseSpeed = random(2, 4); // increase speed
 
-
     // Randomly shuffle the order of ring types to add variation in how each ring is rendered
     // This creates a dynamic and less predictable composition each time the sketch runs
     this.typeOrder = shuffle([1, 2, 3]);
@@ -45,6 +44,7 @@ class ColorfulRing {
       let scaling = 1 - (i + 1) / this.typeOrder.length;
       let size = this.size * canvasScale * scaling;
       let type = this.typeOrder[i];
+      // Draw different types of rings based on type ID
       if (type === 1) {
         this.drawType1Circle(size);
       } else if (type === 2) {
@@ -54,7 +54,7 @@ class ColorfulRing {
       }
     }
     pop();
-
+    
     blendMode(BLEND);// Restore default blend mode
     // This function uses push/pop, rotate(), scale(), and blendMode() to create layered visual effects
     // The blend mode creates a strong visual feedback when a ring is clicked
@@ -80,7 +80,7 @@ class ColorfulRing {
     let circleNum = ceil(r / sapcing); // Number of concentric rings
     let spotNum = s * 0.2; // Number of spots per ring (scaled by size)
     let spotDt = TWO_PI / spotNum; // Angular interval between spots
-    let offset = 0; // Angular offset between rings
+    let offset = 0; //  Angular offset between rings
     let offsetDt = s * 0.1;
 
     // Calculate the position of each spot and draw it
@@ -152,7 +152,7 @@ class ColorfulRing {
     // Draw concentric rings
     let sapcing = s * 0.1; // Spacing between rings
     if (sapcing <= 0) return;
-    let circleNum = round(s / sapcing); // Number of concentric rings
+    let circleNum = round(s / sapcing); //  Number of concentric rings
 
     for (let i = circleNum - 1; i >= 0; i--) {
       let raduis = i * sapcing;
@@ -167,3 +167,4 @@ class ColorfulRing {
     this.clicked = true;
   }
 }
+
