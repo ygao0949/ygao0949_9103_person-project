@@ -2,7 +2,7 @@ let colorfulRings = []; // Store all colorful ring objects
 
 let canvasSize = 1000; // Base canvas size used for scaling
 let canvasScale = 1; // Scaling factor based on canvas resizing
-let ringNumbers = 100; //  Maximum number of rings to generate randomly
+let ringNumbers = 100; // Maximum number of rings to generate randomly
 let minRadius = canvasSize * 0.2; // Minimum possible radius for generated rings
 let maxRadius = canvasSize * 0.8; // Maximum possible radius for generated rings
 let maxAttempts = 100000; // Maximum number of attempts to place non-overlapping rings
@@ -21,6 +21,7 @@ function draw() {
   let amt = map(sin(frameCount * 0.01), -1, 1, 0, 1);
   let bg = lerpColor(c1, c2, amt);
   background(bg);
+
   showAllRings();
   // Dynamic gradient background using sin() and lerpColor() with frameCount for looping effect
   // Inspired by community generative examples and official p5.js functions
@@ -41,11 +42,11 @@ function windowResized() {
   canvasScale = minWinSize / canvasSize;
 }
 
-//  Randomly generate non-overlapping circles with varying positions and sizes
+// Randomly generate non-overlapping circles with varying positions and sizes
 function generateRandomRings() {
   let attempts = 0;
   colorfulRings = [];
-  //  Continue until the target number of rings is reached or max attempts is hit
+  // Continue until the target number of rings is reached or max attempts is hit
   while (colorfulRings.length < ringNumbers && attempts < maxAttempts) {
     // Generate random position and radius
     let x = random(canvasSize);
@@ -115,3 +116,29 @@ function mousePressed() {
   // RIGHT click behavior usage were not covered in class
   // Reference: https://p5js.org/reference/p5/mouseButton/
 }
+
+// Use mouse wheel to scale the ring under the cursor
+// Scroll up to enlarge, scroll down to shrink
+// Reference: https://p5js.org/reference/p5/mouseWheel/
+function mouseWheel(event) {
+  // Calculate distance between cursor and ring center
+  for (let ring of colorfulRings) {
+    let dis = dist(
+      mouseX,
+      mouseY,
+      ring.xpos * canvasScale,
+      ring.ypos * canvasScale
+    );
+    // Only affect the ring if the cursor is within its area
+    if (dis < ring.size * canvasScale * 0.25) {
+      if (event.delta < 0) {
+        ring.size *= 1.02; // Scroll up to enlarge
+      } else {
+        ring.size *= 0.98; // Scroll down to shrink
+      }
+    }
+  }
+
+  return false; // Prevent default page scrolling
+}
+
