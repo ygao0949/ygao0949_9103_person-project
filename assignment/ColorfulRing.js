@@ -38,7 +38,7 @@ class ColorfulRing {
     translate(this.xpos * canvasScale, this.ypos * canvasScale);
     rotate(rotation); // Apply rotation
     scale(scaleFactor); // Apply scaling
-    
+
     // Draw multiple circle layers based on shuffled type order
     for (let i = 0; i < this.typeOrder.length; i++) {
       let scaling = 1 - (i + 1) / this.typeOrder.length;
@@ -54,7 +54,7 @@ class ColorfulRing {
       }
     }
     pop();
-
+    
     blendMode(BLEND);// Restore default blend mode
     // This function uses push/pop, rotate(), scale(), and blendMode() to create layered visual effects
     // The blend mode creates a strong visual feedback when a ring is clicked
@@ -75,15 +75,15 @@ class ColorfulRing {
     fill(this.colorPatterns[1]);
 
     let r = s / 2;
-    let sapcing = s * 0.04; //  Distance between rings
+    let sapcing = s * 0.04; // Distance between rings
     if (sapcing <= 0) return;
     let circleNum = ceil(r / sapcing); // Number of concentric rings
     let spotNum = s * 0.2; // Number of spots per ring (scaled by size)
     let spotDt = TWO_PI / spotNum; // Angular interval between spots
-    let offset = 0; // Angular offset between rings
+    let offset = 0; //  Angular offset between rings
     let offsetDt = s * 0.1;
 
-    //Calculate the position of each spot and draw it
+    // Calculate the position of each spot and draw it
     for (let i = 0; i < circleNum - 1; i++) {
       offset += offsetDt;
       for (let j = 0; j < spotNum; j++) {
@@ -152,7 +152,7 @@ class ColorfulRing {
     // Draw concentric rings
     let sapcing = s * 0.1; // Spacing between rings
     if (sapcing <= 0) return;
-    let circleNum = round(s / sapcing); // Number of concentric rings
+    let circleNum = round(s / sapcing); //  Number of concentric rings
 
     for (let i = circleNum - 1; i >= 0; i--) {
       let raduis = i * sapcing;

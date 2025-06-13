@@ -1,13 +1,13 @@
 let colorfulRings = []; // Store all colorful ring objects
 
-let canvasSize = 1000; //  Base canvas size used for scaling
+let canvasSize = 1000; // Base canvas size used for scaling
 let canvasScale = 1; // Scaling factor based on canvas resizing
 let ringNumbers = 100; //  Maximum number of rings to generate randomly
 let minRadius = canvasSize * 0.2; // Minimum possible radius for generated rings
 let maxRadius = canvasSize * 0.8; // Maximum possible radius for generated rings
 let maxAttempts = 100000; // Maximum number of attempts to place non-overlapping rings
 let lineWeight = 4; // Stroke weight for ring outlines
-let c1, c2; //Two base colors used for background gradient
+let c1, c2; // Two base colors used for background gradient
 
 function setup() {
   createCanvas(canvasSize, canvasSize, P2D);
@@ -22,13 +22,13 @@ function draw() {
   let bg = lerpColor(c1, c2, amt);
   background(bg);
   showAllRings();
-// Dynamic gradient background using sin() and lerpColor() with frameCount for looping effect
-// Inspired by community generative examples and official p5.js functions
-// References:
-// https://p5js.org/reference/p5/sin/
-// https://p5js.org/reference/p5/map/
-// https://p5js.org/reference/p5/lerpColor/
-// https://p5js.org/reference/p5/frameCount/
+  // Dynamic gradient background using sin() and lerpColor() with frameCount for looping effect
+  // Inspired by community generative examples and official p5.js functions
+  // References:
+  // https://p5js.org/reference/p5/sin/
+  // https://p5js.org/reference/p5/map/
+  // https://p5js.org/reference/p5/lerpColor/
+  // https://p5js.org/reference/p5/frameCount/
 }
 
 // Resize the canvas when the window is resized, keeping it square (1:1 aspect ratio)
@@ -41,10 +41,11 @@ function windowResized() {
   canvasScale = minWinSize / canvasSize;
 }
 
-// Randomly generate non-overlapping circles with varying positions and sizes
+//  Randomly generate non-overlapping circles with varying positions and sizes
 function generateRandomRings() {
   let attempts = 0;
-  // Continue until the target number of rings is reached or max attempts is hit
+  colorfulRings = [];
+  //  Continue until the target number of rings is reached or max attempts is hit
   while (colorfulRings.length < ringNumbers && attempts < maxAttempts) {
     // Generate random position and radius
     let x = random(canvasSize);
@@ -91,17 +92,26 @@ function showAllRings() {
 
 // Detect if the user has clicked on any ring
 function mousePressed() {
-  for (let ring of colorfulRings) {
-    // Calculate distance between mouse position and ring center (scaled)
-    let dis = dist(
-      mouseX,
-      mouseY,
-      ring.xpos * canvasScale,
-      ring.ypos * canvasScale
-    );
-    // If mouse is within the radius, trigger click response
-    if (dis < ring.size * canvasScale * 0.25) {
-      ring.onMouseClicked();
+  if (mouseButton === LEFT) {
+    for (let ring of colorfulRings) {
+      // Calculate distance between mouse position and ring center (scaled)
+      let dis = dist(
+        mouseX,
+        mouseY,
+        ring.xpos * canvasScale,
+        ring.ypos * canvasScale
+      );
+      // If mouse is within the radius, trigger click response
+      if (dis < ring.size * canvasScale * 0.25) {
+        ring.onMouseClicked();
+      }
     }
+  } else if (mouseButton === RIGHT) {
+    // Right-click: regenerate all rings
+    generateRandomRings();
   }
+  // This interaction uses mouseButton to detect left/right clicks
+  // and dist() to determine whether a ring is clicked
+  // RIGHT click behavior usage were not covered in class
+  // Reference: https://p5js.org/reference/p5/mouseButton/
 }
